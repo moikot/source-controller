@@ -170,10 +170,10 @@ func (c *CheckoutSemVer) Checkout(ctx context.Context, path, url string, auth tr
 	}
 
 	repo, err := git.PlainCloneContext(ctx, path, false, &git.CloneOptions{
-		URL:               url,
-		Auth:              auth,
-		RemoteName:        defaultOrigin,
-		SingleBranch:      true,
+		URL:        url,
+		Auth:       auth,
+		RemoteName: defaultOrigin,
+		//SingleBranch:      true,
 		NoCheckout:        false,
 		Depth:             1,
 		RecurseSubmodules: 0,
