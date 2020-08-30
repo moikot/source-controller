@@ -1,4 +1,7 @@
-FROM golang:1.14 as builder
+FROM --platform=$BUILDPLATFORM golang:1.14 as builder
+
+# xx wraps go to automatically configure $GOOS, $GOARCH, and $GOARM
+COPY --from=tonistiigi/xx:golang / /
 
 WORKDIR /workspace
 
@@ -19,7 +22,8 @@ COPY pkg/ pkg/
 COPY internal/ internal/
 
 # build
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 GO111MODULE=on go build -a -o source-controller main.go
+ARG TARGETPLATFORM
+RUN CGO_ENABLED=0 GO111MODULE=on go build -a -o source-controller main.go
 
 FROM alpine:3.12
 
