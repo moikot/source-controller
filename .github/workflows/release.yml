@@ -13,14 +13,10 @@ jobs:
       - name: Setup Kustomize
         uses: fluxcd/pkg/actions/kustomize@master
 
-      - name: Get version
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
-      - name: Prepare
+      - name: Get Docker image name
         id: prep
         run: |
-          DOCKER_IMAGE=moikot/source-controller:${{ steps.get_version.outputs.VERSION }}
+          DOCKER_IMAGE=moikot/source-controller:${GITHUB_REF/refs\/tags\//}
           echo ::set-output name=docker_image::${DOCKER_IMAGE}
 
       - name: Generate release asset
